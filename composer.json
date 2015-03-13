@@ -1,0 +1,22 @@
+{
+    "name": "fedemotta/yii2-appnexusapiclient",
+    "description": "AppNexus API client for yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","AppNexus","API","client"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Federico Nicolás Motta",
+            "email": "fedemotta@gmail.com"
+        }
+    ],
+    "require": {
+        "f3ath/appnexus":"*",
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "fedemotta\\appnexusapiclient\\": ""
+        }
+    }
+}
