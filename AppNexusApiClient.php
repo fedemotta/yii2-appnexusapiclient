@@ -50,6 +50,21 @@ class Appnexusapiclient extends Component{
      */
     public $storage_type = self::DEFAULT_STORAGE_TYPE;
     
+    /*
+     * @var array specifies the storage type settings. The values in the array 
+     * are mapped to constructor arguments positionally.
+     *
+     * Examples:
+     * //Array
+     * $storage_type_settings = [];
+     * //Apc: 
+     * $storage_type_settings = ['prefix_', 0];
+     * //Memcached
+     * $storage_type_settings = [$memcached_object,'prefix_'];
+     */
+    public $storage_type_settings = [];
+    
+    
     /**
      * @var AppNexusClient API instance
      */
@@ -85,13 +100,16 @@ class Appnexusapiclient extends Component{
     private function getStorage(){
         switch ($this->storage_type) {
             case 'Apc':
-                return new AppNexusClient\ApcTokenStorage();
+                $storage = new \ReflectionClass('\F3\AppNexusClient\ApcTokenStorage');
+                break;
             case 'Memcached':
-                return new AppNexusClient\MemcachedTokenStorage();
+                $storage = new \ReflectionClass('\F3\AppNexusClient\MemcachedTokenStorage');
+                break;
             case 'Array':
             default:
-                return new AppNexusClient\ArrayTokenStorage();
+                $storage = new ReflectionClass('\F3\AppNexusClient\ArrayTokenStorage');
         }
+        return $storage->newInstanceArgs($this->storage_type_settings);
     }
         
     /**
