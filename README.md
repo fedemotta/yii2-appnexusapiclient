@@ -46,8 +46,15 @@ return [
 ```
 
 
-Getting users from AppNexus API is very simple:
+Getting users from AppNexus:
 
 ```php
 $users = Yii::$app->appnexusapiclient->get('/user');
+```
+
+
+Modifying a publisher name in AppNexus:
+
+```php
+Yii::$app->appnexusapiclient->put('/publisher?id=1',["publisher"=>["name"=>"The new name"]]);
 ```
