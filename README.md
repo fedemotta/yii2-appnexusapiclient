@@ -38,7 +38,8 @@ return [
             'username' => 'yourusername',
             'password' => 'yourpassword',
             'host' => 'http://api-console.client-testing.adnxs.net/', //or http:://api.appnexus.com
-            'storage_type' => 'Array' //available token storage are Array, Apc and Memcached 
+            'storage_type' => 'Apc', //available token storage are Array, Apc and Memcached
+            'storage_type_settings' => ['prefix_',0], //specifies the storage type settings
         ],
     ],
 ];
