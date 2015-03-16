@@ -4,7 +4,7 @@
  * @author Federico Nicolás Motta <fedemotta@gmail.com>
  * @license http://opensource.org/licenses/mit-license.php The MIT License (MIT)
  * @package yii2-appnexusclient
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 namespace fedemotta\appnexusapiclient;
