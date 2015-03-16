@@ -107,7 +107,7 @@ class Appnexusapiclient extends Component{
                 break;
             case 'Array':
             default:
-                $storage = new ReflectionClass('\F3\AppNexusClient\ArrayTokenStorage');
+                $storage = new \ReflectionClass('\F3\AppNexusClient\ArrayTokenStorage');
         }
         return $storage->newInstanceArgs($this->storage_type_settings);
     }
