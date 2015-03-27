@@ -28,9 +28,11 @@ class Appnexusapiclient extends Component{
     // Default storage type
     const DEFAULT_STORAGE_TYPE = 'Array';
     
-    // Default request limit
-    const DEFAULT_REQUEST_LIMIT_QUANTITY = 100;
-    const DEFAULT_REQUEST_LIMIT_SECONDS = 60;
+    // Default request limit values
+    const DEFAULT_READ_REQUEST_LIMIT_QUANTITY = 100;
+    const DEFAULT_WRITE_REQUEST_LIMIT_QUANTITY = 60;
+    const DEFAULT_READ_REQUEST_LIMIT_SECONDS = 60;
+    const DEFAULT_WRITE_REQUEST_LIMIT_SECONDS = 60;
     const DEFAULT_REQUEST_LIMIT_MESSAGE = 'You have exceeded your request limit of %d per %d seconds for this member, please wait and try again or contact AppNexus for higher limits';
     
     /*
@@ -70,16 +72,35 @@ class Appnexusapiclient extends Component{
      */
     public $storage_type_settings = [];
     
+    /*
+     * @var int specifies the quantity of the read request limit
+     */
+    public $request_read_limit_quantity = self::DEFAULT_REQUEST_READ_LIMIT_QUANTITY;
     
     /*
-     * @var int specifies the quantity of the request limit
+     * @var int specifies the quantity of the write request limit
      */
-    public $request_limit_quantity = self::DEFAULT_REQUEST_LIMIT_QUANTITY;
+    public $request_write_limit_quantity = self::DEFAULT_REQUEST_WRITE_LIMIT_QUANTITY;
     
     /*
-     * @var int specifies the seconds per quantity of the request limit
+     * @var int specifies the quantity of the read or write request limit (read by default)
      */
-    public $request_limit_seconds = self::DEFAULT_REQUEST_LIMIT_SECONDS;
+    public $request_limit_quantity = self::DEFAULT_REQUEST_READ_LIMIT_QUANTITY;
+    
+    /*
+     * @var int specifies the seconds per quantity of the read request limit
+     */
+    public $request_read_limit_seconds = self::DEFAULT_REQUEST_READ_LIMIT_SECONDS;
+    
+    /*
+     * @var int specifies the seconds per quantity of the write request limit
+     */
+    public $request_write_limit_seconds = self::DEFAULT_REQUEST_WRITE_LIMIT_SECONDS;
+    
+    /*
+     * @var int specifies the seconds per quantity of the read or write request limit (read by default)
+     */
+    public $request_limit_seconds = self::DEFAULT_REQUEST_READ_LIMIT_SECONDS;
     
     /*
      * @var string specifies the message of the request limit
@@ -176,6 +197,10 @@ class Appnexusapiclient extends Component{
      */    
     public function get($url, array $headers = array())
     {
+        //request limit for read request
+        $this->request_limit_quantity = $this->request_read_limit_quantity;
+        $this->request_limit_seconds = $this->request_read_limit_seconds;
+
         return $this->make_request(AppNexusClient\HttpMethod::GET,$url, array(), $headers);
     }
     
@@ -191,6 +216,10 @@ class Appnexusapiclient extends Component{
     
     public function post($url, array $post = array(), array $headers = array())
     {
+        //request limit for write request
+        $this->request_limit_quantity = $this->request_write_limit_quantity;
+        $this->request_limit_seconds = $this->request_write_limit_seconds;
+        
         return $this->make_request(AppNexusClient\HttpMethod::POST, $url, $post, $headers);
     }
     /**
@@ -205,6 +234,10 @@ class Appnexusapiclient extends Component{
     
     public function put($url, array $post = array(), array $headers = array())
     {
+        //request limit for write request
+        $this->request_limit_quantity = $this->request_write_limit_quantity;
+        $this->request_limit_seconds = $this->request_write_limit_seconds;
+        
         return $this->make_request(AppNexusClient\HttpMethod::PUT, $url, $post, $headers);
     }
     
@@ -219,6 +252,10 @@ class Appnexusapiclient extends Component{
      */    
     public function delete($url, array $post = array(), array $headers = array())
     {
+        //request limit for write request
+        $this->request_limit_quantity = $this->request_write_limit_quantity;
+        $this->request_limit_seconds = $this->request_write_limit_seconds;
+
         return $this->make_request(AppNexusClient\HttpMethod::DELETE, $url, $post, $headers);
     } 
 }
