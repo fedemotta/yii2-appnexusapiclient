@@ -9,6 +9,7 @@
 
 namespace fedemotta\appnexusapiclient;
 use yii\base\Component;
+use yii\base\ErrorException;
 use F3\AppNexusClient;
 
 /**
@@ -20,12 +21,17 @@ use F3\AppNexusClient;
  */
 class Appnexusapiclient extends Component{
     
-    //AppNexus API hosts to connect
+    // AppNexus API hosts to connect
     const HOST_TESTING = 'http://api-console.client-testing.adnxs.net/';
     const HOST_PRODUCTION = 'http://api.appnexus.com/';
     
-    //default storage type
+    // Default storage type
     const DEFAULT_STORAGE_TYPE = 'Array';
+    
+    // Default request limit
+    const DEFAULT_REQUEST_LIMIT_QUANTITY = 100;
+    const DEFAULT_REQUEST_LIMIT_SECONDS = 60;
+    const DEFAULT_REQUEST_LIMIT_MESSAGE = 'You have exceeded your request limit of %d per %d seconds for this member, please wait and try again or contact AppNexus for higher limits';
     
     /*
      * @var string specifies the AppNexus API username
@@ -65,6 +71,21 @@ class Appnexusapiclient extends Component{
     public $storage_type_settings = [];
     
     
+    /*
+     * @var int specifies the quantity of the request limit
+     */
+    public $request_limit_quantity = self::DEFAULT_REQUEST_LIMIT_QUANTITY;
+    
+    /*
+     * @var int specifies the seconds per quantity of the request limit
+     */
+    public $request_limit_seconds = self::DEFAULT_REQUEST_LIMIT_SECONDS;
+    
+    /*
+     * @var string specifies the message of the request limit
+     */
+    public $request_limit_message = self::DEFAULT_REQUEST_LIMIT_MESSAGE;
+    
     /**
      * @var AppNexusClient API instance
      */
@@ -93,7 +114,7 @@ class Appnexusapiclient extends Component{
             $this->getStorage()
         );
     }
-    /*
+    /**
      * Gets the token storage object
      * @return object token storage
      */
@@ -111,6 +132,39 @@ class Appnexusapiclient extends Component{
         }
         return $storage->newInstanceArgs($this->storage_type_settings);
     }
+    
+    /**
+     * Make the request checking for limit and raising error
+     * @param object $http_method
+     * @param string $url
+     * @param array $post
+     * @param array $headers
+     * @return $response
+     * @throws ErrorException
+     */
+    private function make_request($http_method, $url, array $post = array(), array $headers = array()){
+        try {
+            $response = $this->getApi()->call($http_method, $url, $post, $headers);
+        } catch (\F3\AppNexusClient\ServerException $response) {
+            // check for the request limit error
+            if ($response->getMessage() === sprintf($this->request_limit_message, $this->request_limit_quantity, $this->request_limit_seconds)){
+                
+                // wait for the time limit seconds
+                sleep($this->request_limit_seconds);
+                
+                // try again the same request
+                try {
+                    $response = $this->getApi()->call($http_method, $url, $post, $headers);
+                }catch (\F3\AppNexusClient\ServerException $response) {
+                    throw new ErrorException($response->getMessage());
+                }
+            }else{
+                throw new ErrorException($response->getMessage());
+            }
+        }
+        return $response;
+
+    }
         
     /**
      * Do GET HTTP call
@@ -122,7 +176,7 @@ class Appnexusapiclient extends Component{
      */    
     public function get($url, array $headers = array())
     {
-        return $this->getApi()->call(AppNexusClient\HttpMethod::GET,$url, array(), $headers);
+        return $this->make_request(AppNexusClient\HttpMethod::GET,$url, array(), $headers);
     }
     
     /**
@@ -137,7 +191,7 @@ class Appnexusapiclient extends Component{
     
     public function post($url, array $post = array(), array $headers = array())
     {
-        return $this->getApi()->call(AppNexusClient\HttpMethod::POST, $url, $post, $headers);
+        return $this->make_request(AppNexusClient\HttpMethod::POST, $url, $post, $headers);
     }
     /**
      * Do PUT HTTP call
@@ -151,7 +205,7 @@ class Appnexusapiclient extends Component{
     
     public function put($url, array $post = array(), array $headers = array())
     {
-        return $this->getApi()->call(AppNexusClient\HttpMethod::PUT, $url, $post, $headers);
+        return $this->make_request(AppNexusClient\HttpMethod::PUT, $url, $post, $headers);
     }
     
     /**
@@ -165,6 +219,6 @@ class Appnexusapiclient extends Component{
      */    
     public function delete($url, array $post = array(), array $headers = array())
     {
-        return $this->getApi()->call(AppNexusClient\HttpMethod::DELETE, $url, $post, $headers);
+        return $this->make_request(AppNexusClient\HttpMethod::DELETE, $url, $post, $headers);
     } 
 }
