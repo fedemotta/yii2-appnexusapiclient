@@ -75,32 +75,32 @@ class Appnexusapiclient extends Component{
     /*
      * @var int specifies the quantity of the read request limit
      */
-    public $request_read_limit_quantity = self::DEFAULT_REQUEST_READ_LIMIT_QUANTITY;
+    public $request_read_limit_quantity = self::DEFAULT_READ_REQUEST_LIMIT_QUANTITY;
     
     /*
      * @var int specifies the quantity of the write request limit
      */
-    public $request_write_limit_quantity = self::DEFAULT_REQUEST_WRITE_LIMIT_QUANTITY;
+    public $request_write_limit_quantity = self::DEFAULT_WRITE_REQUEST_LIMIT_QUANTITY;
     
     /*
      * @var int specifies the quantity of the read or write request limit (read by default)
      */
-    public $request_limit_quantity = self::DEFAULT_REQUEST_READ_LIMIT_QUANTITY;
+    public $request_limit_quantity = self::DEFAULT_READ_REQUEST_LIMIT_QUANTITY;
     
     /*
      * @var int specifies the seconds per quantity of the read request limit
      */
-    public $request_read_limit_seconds = self::DEFAULT_REQUEST_READ_LIMIT_SECONDS;
+    public $request_read_limit_seconds = self::DEFAULT_READ_REQUEST_LIMIT_SECONDS;
     
     /*
      * @var int specifies the seconds per quantity of the write request limit
      */
-    public $request_write_limit_seconds = self::DEFAULT_REQUEST_WRITE_LIMIT_SECONDS;
+    public $request_write_limit_seconds = self::DEFAULT_WRITE_REQUEST_LIMIT_SECONDS;
     
     /*
      * @var int specifies the seconds per quantity of the read or write request limit (read by default)
      */
-    public $request_limit_seconds = self::DEFAULT_REQUEST_READ_LIMIT_SECONDS;
+    public $request_limit_seconds = self::DEFAULT_READ_REQUEST_LIMIT_SECONDS;
     
     /*
      * @var string specifies the message of the request limit
