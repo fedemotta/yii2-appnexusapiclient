@@ -24,7 +24,7 @@ or add
 to the require section of your `composer.json` file.
 
 
-General Usage
+Usage
 -------------
 
 To use this extension, simply add the following code in your application configuration:
