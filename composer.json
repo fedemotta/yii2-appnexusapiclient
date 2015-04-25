@@ -5,6 +5,10 @@
     "minimum-stability": "stable",
     "keywords": ["yii2","extension","AppNexus","API","client"],
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/fedemotta/yii2-appnexusapiclient/issues?state=open",
+        "source": "https://github.com/fedemotta/yii2-appnexusapiclient"
+    },
     "authors": [
         {
             "name": "Federico Nicolás Motta",
