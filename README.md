@@ -3,6 +3,8 @@ A Simple AppNexus API client for yii2
 
 This extension provides the [AppNexus API client](https://github.com/f3ath/AppNexusClient) integration for the Yii2 framework.
 
+[![Latest Stable Version](https://poser.pugx.org/fedemotta/yii2-appnexusapiclient/v/stable)](https://packagist.org/packages/fedemotta/yii2-appnexusapiclient) [![Total Downloads](https://poser.pugx.org/fedemotta/yii2-appnexusapiclient/downloads)](https://packagist.org/packages/fedemotta/yii2-appnexusapiclient) [![Latest Unstable Version](https://poser.pugx.org/fedemotta/yii2-appnexusapiclient/v/unstable)](https://packagist.org/packages/fedemotta/yii2-appnexusapiclient) [![License](https://poser.pugx.org/fedemotta/yii2-appnexusapiclient/license)](https://packagist.org/packages/fedemotta/yii2-appnexusapiclient)
+
 
 Installation
 ------------
